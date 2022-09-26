@@ -56,3 +56,4 @@ dkms.conf
 *.cbp
 bin/
 obj/
+tlv-output/*
