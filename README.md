@@ -29,7 +29,7 @@ The dictionary would be as follows for the first record:
 "key1":1, "key2":2, "key3":3
 ```
 This record is then represented as:
-```json
+```
 { 1:"value", 2:42, 3:TRUE}
 ```
 

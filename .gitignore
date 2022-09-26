@@ -54,6 +54,7 @@ dkms.conf
 # Code::Blocks
 *.save
 *.cbp
+*.depend
 bin/
 obj/
 tlv-output/*
