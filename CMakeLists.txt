@@ -1,9 +1,21 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(json-packer VERSION 1.0)
-add_executable(json-packer main.c)
+
+###########################
+# Compiler configurations
+###########################
+
 set(COMPILER_FLAGS "-Wall -O2")
 set(C_COMPILER_FLAGS "gcc ${COMPILER_FLAGS}")
+
+###########################
+# Project configurations
+###########################
+
+add_executable(json-packer main.c
+    ./cjson/cJSON.c
+)
 
 # - Find Apache Portable Runtime
 # Find the APR includes and libraries
@@ -107,3 +119,9 @@ include_directories(${APRUTIL_INCLUDE_DIR})
 
 target_link_libraries(json-packer ${APR_LIBRARY})
 target_link_libraries(json-packer ${APRUTIL_LIBRARY})
+
+###########################
+# Directories
+###########################
+
+add_subdirectory(cjson)
