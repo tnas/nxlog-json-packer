@@ -57,3 +57,10 @@ dkms.conf
 bin/
 obj/
 tlv-output/*
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+json-packer
