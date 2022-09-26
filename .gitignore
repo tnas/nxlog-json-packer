@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Code::Blocks
+*.save
+*.cbp
+bin/
+obj/
