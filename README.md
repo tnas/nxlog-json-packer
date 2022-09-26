@@ -3,6 +3,7 @@ A JSON reader for writing data to a compressed stream on a disk.
 
 ## Table of contents
 * [Description](#description)
+* [Dependencies](#dependencies)
 * [Usage](#usage)
 
 ## Description
@@ -39,6 +40,10 @@ Types supported by JSON must be handled and preserved (i.e. integer, string, boo
 The input file can be arbitrary large, make sure to use streaming instead of reading everything into memory. You can assume that the key space (number of distinct key strings) is small and regular in-memory structures (i.e. hashtable) can be used for the dictionary.
 
 While completing this task please try to show your skills. Clear, structured, readable and documented code is preferred. Avoid writing obfuscated code, speed should be a secondary objective. Feel free to add unit tests.
+
+## Dependencies
+- [cJSON - Ultralightweight JSON parser in ANSI C](https://github.com/DaveGamble/cJSON)
+- [Apache Portable Runtime - 1.7.0](https://apr.apache.org/)
 
 ## Usage
 ```Shell
