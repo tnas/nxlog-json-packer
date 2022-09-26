@@ -1,34 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <apr_general.h>
+#include <apr_file_io.h>
 
 int main()
 {
-    FILE* jsonf;
-    char* line;
-    size_t len = 0;
+    apr_status_t rv;
+    apr_pool_t* memp;
+    apr_file_t* jsonf;
+    char line[1024];
 
-    char* filenm = "json-input/input01.json";
+    const char* fname = "json-input/input01.json";
 
-    jsonf = fopen(filenm, "r");
+    apr_initialize();
+    apr_pool_create(&memp, NULL);
 
-    if (jsonf == NULL)
-    {
-        printf("Error: Could not open file %s\n", filenm);
+    if (apr_file_open(&jsonf, fname, APR_READ, APR_OS_DEFAULT, memp) != APR_SUCCESS) {
+        printf("Error: Could not open file %s\n", fname);
         exit(-1);
     }
 
-    while (getline(&line, &len, jsonf) != -1)
-    {
+    while (apr_file_gets(line, sizeof(line), jsonf) == APR_SUCCESS) {
         printf("%s\n", line);
     }
 
-    fclose(jsonf);
-
-    if (line)
-    {
-        free(line);
-    }
+    apr_file_close(jsonf);
+    apr_terminate();
 
     return 0;
 }
