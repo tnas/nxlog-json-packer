@@ -55,6 +55,7 @@ dkms.conf
 *.save
 *.cbp
 *.depend
+*.layout
 bin/
 obj/
 tlv-output/*

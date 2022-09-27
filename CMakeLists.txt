@@ -15,6 +15,8 @@ set(C_COMPILER_FLAGS "gcc ${COMPILER_FLAGS}")
 
 add_executable(json-packer main.c
     ./cjson/cJSON.c
+    ./fhandlers/tlv.c
+    ./fhandlers/txt.c
 )
 
 # - Find Apache Portable Runtime
@@ -125,3 +127,5 @@ target_link_libraries(json-packer ${APRUTIL_LIBRARY})
 ###########################
 
 add_subdirectory(cjson)
+add_subdirectory(include)
+add_subdirectory(fhandlers)
