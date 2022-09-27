@@ -32,17 +32,3 @@ void tlv_parse_kvp_list(apr_array_header_t** kvp_list)
         }
     }
 }
-
-void tlv_parse_dictionary(apr_pool_t* memp, apr_hash_t* dict)
-{
-    const void* key;
-    void* val;
-    apr_hash_index_t* hi;
-
-    for (hi = apr_hash_first(memp, dict); hi; hi = apr_hash_next(hi))
-    {
-        apr_hash_this(hi, &key, NULL, &val);
-
-        printf("Iterated key: %d\n", *(uint32_t *)key);
-    }
-}

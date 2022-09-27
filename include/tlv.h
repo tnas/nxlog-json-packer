@@ -22,6 +22,5 @@ typedef struct {
 
 void tlv_open_read_file(apr_file_t** jsonf, const char* jsonfname, apr_pool_t* memp);
 void tlv_parse_kvp_list(apr_array_header_t** kvp_list);
-void tlv_parse_dictionary(apr_pool_t* memp, apr_hash_t* dict);
 
 #endif // TLV_H

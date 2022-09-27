@@ -47,7 +47,15 @@ int main()
             *kmap = key_map++;
             apr_hash_set(dict, kvp->string, APR_HASH_KEY_STRING, kmap);
 
-//            tlv_t key_tlv;
+            // Adding key to dynamic array
+            tlv_t* key_tlv = apr_palloc(memp, sizeof(tlv_t));
+            key_tlv->type = INTEGER;
+            key_tlv->length = sizeof(uint32_t);
+            key_tlv->value = apr_palloc(memp, sizeof(uint32_t));
+            *(uint32_t *) key_tlv->value = *kmap;
+            *(tlv_t **) apr_array_push(tlv_list) = key_tlv;
+
+            // Adding value to dynamic array
             tlv_t* val_tlv = apr_palloc(memp, sizeof(tlv_t));
 
             if (cJSON_IsString(kvp))
