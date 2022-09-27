@@ -31,7 +31,7 @@ The dictionary would be as follows for the first record:
 ```
 This record is then represented as:
 ```
-{ 1:"value", 2:42, 3:TRUE}
+{ 1:"value", 2:42, 3:true}
 ```
 
 Types supported by JSON must be handled and preserved (i.e. integer, string, boolean).  The output should be dumped to a file in a binary form using TLV encoding instead of the above text-based representation. This binary TLV encoding is more compact, e.g. a boolean value can be encoded in two bytes (or even less).

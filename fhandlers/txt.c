@@ -1,6 +1,16 @@
 #include "../include/txt.h"
 
-void txt_write_open(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
+void txt_open_write_file(apr_file_t** txtf, const char* txtfname, apr_pool_t* memp)
+{
+    if (apr_file_open(txtf, txtfname, APR_FOPEN_CREATE |
+        APR_FOPEN_WRITE | APR_FOPEN_APPEND, APR_FPROT_OS_DEFAULT, memp) != APR_SUCCESS)
+    {
+        printf("Error: Could not create|open file %s\n", txtfname);
+        exit(-1);
+    }
+}
+
+void txt_write_hash_file(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
 {
     void* val;
     const void* key;
