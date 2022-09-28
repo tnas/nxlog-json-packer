@@ -10,7 +10,7 @@ void txt_open_write_file(apr_file_t** txtf, const char* txtfname, apr_pool_t* me
     }
 }
 
-void txt_write_hash_file(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
+void txt_write_txt_file(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
 {
     void* val;
     const void* key;

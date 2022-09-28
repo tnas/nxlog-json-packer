@@ -47,6 +47,7 @@ int main()
         // KVP box list for binary TLV
         tlv_box_t* box = apr_palloc(memp, sizeof(tlv_box_t));
         box->entries = apr_array_make(memp, INITIAL_ARRAY_SIZE, sizeof(tlv_t));
+        box->buff_len = 0;
 
         cJSON_ArrayForEach(kvp, json_line)
         {
@@ -77,8 +78,9 @@ int main()
             }
         }
 
-        tlv_box_parse(&(box->entries));
-        txt_write_hash_file(memp, dict, txtf);
+        tlv_box_parse_kvp(memp, &box);
+        tlv_write_bin_file(box, tlvf);
+        txt_write_txt_file(memp, dict, txtf);
 
         cJSON_Delete(json_line);
     }

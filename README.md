@@ -5,6 +5,7 @@ A JSON reader for writing data to a compressed stream on a disk.
 * [Description](#description)
 * [Dependencies](#dependencies)
 * [Usage](#usage)
+* [References](#references)
 
 ## Description
 The program is to read data in JSON format and using dictionary encoding write a compressed stream to disk.
@@ -50,3 +51,8 @@ While completing this task please try to show your skills. Clear, structured, re
 cmake --build .
 ./json-packer
 ```
+
+## References
+- [X.690](https://en.wikipedia.org/wiki/X.690)
+- [ASN.1 encoding rules](https://www.itu.int/rec/T-REC-X.690-202102-I/en)
+- [Abstract Syntax Notation One](https://www.openscdp.org/scripts/tutorial/emv/TLV.html)
