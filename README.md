@@ -15,19 +15,29 @@ A TLV object (or record) has been implemented according to the next schema
 ![](https://github.com/tnas/json-packer/blob/main/docs/tlv.png)
 
 As described in the original specification, complex and nested types are not covered
-by this implementation. A very important feature involves the JSON boolean type.
-In this program, this type is allocated in 3 bytes: 1 for type (tag), 1 for length and
-1 for the boolean value, i. e., 0xFF (true) and 0x00 (false). For example, the value TRUE
+by this implementation. A very important feature involves the **JSON boolean type**.
+In this program, this type is allocated in 3 bytes: **1 for type (tag), 1 for length and
+1 for the boolean value**, i. e., 0xFF (true) and 0x00 (false). For example, the value TRUE
 is encoded as
 
  ![](https://github.com/tnas/json-packer/blob/main/docs/tlv-boolean.png)
 
- Serial TLV Objects were connected like as follow:
+ Serial TLV Objects were connected as follow:
 
  ![](https://github.com/tnas/json-packer/blob/main/docs/serial-tlv.png)
 
 ## Dependencies
+The program depends on two external libraries:
+
 - [cJSON - Ultralightweight JSON parser in ANSI C](https://github.com/DaveGamble/cJSON)
+
+As explained by the author
+
+> Because the entire library is only one C file and one header file,
+> you can just copy cJSON.h and cJSON.c to your projects source and start using it.
+
+the cJSON library has been added to the project into the folder `cjson`
+
 - [Apache Portable Runtime - 1.7.0](https://apr.apache.org/)
 
 ## Usage
