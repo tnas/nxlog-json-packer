@@ -76,9 +76,14 @@ The first one is by do not passing any command argument as follow
 ./json-packer
 ```
 
-In this mode, it will parse all files in the `./json-input` folder.
+In this mode, it will parse all files in the `./json-input` folder. The folders `txt-output`
+and `tlv-output` will be used to store the program's outcomes. The created files have their names appended to the `_txt` and `_tlv`
+suffixes respectively.
 
 In the second mode, the program expects a specific JSON file to be passed as parameter.
+The directory from which the program was run is used to store the program's outcomes.
+Two files are created: `output.txt` and `output.tlv`.
+
 The command line parameter `-f` must be used to inform the file as follow
 
 ```Shell
