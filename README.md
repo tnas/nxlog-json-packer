@@ -7,6 +7,9 @@ The original description is detailed on the project's [Wiki](https://github.com/
 * [Brief](#brief)
 * [Dependencies](#dependencies)
 * [Usage](#usage)
+    * [Compiling](#compiling)
+    * [Testing](#testing)
+    * [Running](#running)
 * [References](#references)
 
 ## Brief
@@ -36,15 +39,54 @@ As explained by the author
 > Because the entire library is only one C file and one header file,
 > you can just copy cJSON.h and cJSON.c to your projects source and start using it.
 
-the cJSON library has been added to the project into the folder `cjson`
+the cJSON library has been added to the project in the folder `cjson`
 
 - [Apache Portable Runtime - 1.7.0](https://apr.apache.org/)
 
+Even though Apache Portable Runtime Utility 1.6.1 has not been
+used in this implementation, the CMake build automation software
+expects such a dependency.
+
 ## Usage
+The program expects a standard JSON file with no  complex or nested elements.
+There is no error handling if this condition is not met, i. e.,
+`Segmentation fault` errors can be triggered when the program doesn't run under
+such conditions.
+
+### Compiling
+To compile the program, run the command
+
 ```Shell
 cmake --build .
+```
+
+### Testing
+After compiling the program, the test suite can be invoke through the command
+
+```Shell
+make test
+```
+
+### Running
+The program can run in two modes.
+
+The first one is by do not passing any command argument as follow
+
+```Shell
 ./json-packer
 ```
+
+In this mode, it will parse all files in the `./json-input` folder.
+
+In the second mode, the program expects a specific JSON file to be passed as parameter.
+The command line parameter `-f` must be used to inform the file as follow
+
+```Shell
+./json-packer -f input01.json
+```
+
+**Remark:** The program only recognizes the `-f` command argument. If any other
+arguments are passed to the program, they will be disregarded.
 
 ## References
 - [X.690](https://en.wikipedia.org/wiki/X.690)
