@@ -24,3 +24,9 @@ void parse_commands(apr_pool_t* memp, int argc, const char* argv[], const char**
         }
     }
 }
+
+int is_parseable_file(const char* fname)
+{
+    return !(apr_strnatcmp(fname, CURRENT_DIR) == EQUAL_STRINGS ||
+        apr_strnatcmp(fname, PARENT_DIR) == EQUAL_STRINGS);
+}

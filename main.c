@@ -1,4 +1,5 @@
-#include "include/config.h"
+#include "include/parser.h"
+#include "include/util.h"
 
 int main(int argc, const char *argv[])
 {
@@ -15,7 +16,6 @@ int main(int argc, const char *argv[])
     if (argc >= NUM_COMMAND_ARGS)
     {
         parse_commands(memp, argc, argv, &optarg);
-        printf("Argument: %s\n", optarg);
     }
 
     if (optarg)
@@ -32,10 +32,10 @@ int main(int argc, const char *argv[])
         // Scanning directory of JSON files
         while (apr_dir_read(&finfo, APR_FINFO_DIRENT, json_dir) == APR_SUCCESS)
         {
-            if (apr_strnatcmp(finfo.name, CURRENT_DIR) == EQUAL_STRINGS ||
-                apr_strnatcmp(finfo.name, PARENT_DIR) == EQUAL_STRINGS) continue;
-
+            if (is_parseable_file(finfo.name))
+            {
                 json_parser(memp, finfo.name, SIMPLE_FNAME);
+            }
         }
     }
 

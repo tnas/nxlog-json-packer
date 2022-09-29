@@ -75,3 +75,4 @@ json-packer
 # Program
 output.tlv
 output.txt
+*.json
