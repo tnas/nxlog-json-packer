@@ -17,6 +17,7 @@ add_executable(json-packer main.c
     ./cjson/cJSON.c
     ./fhandlers/tlv.c
     ./fhandlers/txt.c
+    ./fhandlers/parser.c
 )
 
 # - Find Apache Portable Runtime

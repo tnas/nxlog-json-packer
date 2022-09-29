@@ -77,7 +77,6 @@ void tlv_box_serialize(tlv_box_t** box, tlv_t** tlv)
     unsigned int tlv_length_size = (*tlv)->tag == TAG_BOOLEAN ?
         BYTES_UINT8 : BYTES_UINT32;
 
-    printf("- writing tlv at position: %d\n", (*box)->offset);
     memcpy((*box)->buffer + (*box)->offset, &((*tlv)->tag), TLV_TAG_SIZE);
     (*box)->offset += TLV_TAG_SIZE;
 
@@ -90,6 +89,5 @@ void tlv_box_serialize(tlv_box_t** box, tlv_t** tlv)
 
 void tlv_write_bin_file(tlv_box_t* box, apr_file_t* tlvf)
 {
-    printf("--->>box-buffer-size: %ld\n", box->buff_len);
     apr_file_write(tlvf, box->buffer, &(box->buff_len));
 }

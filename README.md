@@ -56,3 +56,5 @@ cmake --build .
 - [X.690](https://en.wikipedia.org/wiki/X.690)
 - [ASN.1 encoding rules](https://www.itu.int/rec/T-REC-X.690-202102-I/en)
 - [Abstract Syntax Notation One](https://www.openscdp.org/scripts/tutorial/emv/TLV.html)
+- [libapr - Programming Tutorial](http://dev.ariel-networks.com/apr/apr-tutorial/html/apr-tutorial.html#toc19)
+- [CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)

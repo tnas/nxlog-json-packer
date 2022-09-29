@@ -1,100 +1,58 @@
-#include <stdio.h>
-#include <apr_general.h>
-#include <apr_file_io.h>
-
-#include "cjson/cJSON.h"
-#include "include/tlv.h"
-#include "include/txt.h"
-
-// 128K of cache L1d
-#define BUFFER_FILE_SIZE 131072
-
-#define INITIAL_ARRAY_SIZE 50
+#include "include/config.h"
 
 int main()
 {
-    char* jsonfname = "json-input/input01.json";
-    char* txtfname = "txt-output/input01.txt";
-    char* tlvfname = "tlv-output/input01.tlv";
-    char line[BUFFER_FILE_SIZE];
-
     apr_pool_t* memp;
+
+    char* jsonfname;
+    char* txtfname;
+    char* tlvfname;
+
     apr_file_t* jsonf;
     apr_file_t* txtf;
     apr_file_t* tlvf;
 
+    apr_dir_t* json_dir;
+    apr_finfo_t finfo;
+
+    // Initializing APR memory pool
     apr_initialize();
     apr_pool_create(&memp, NULL);
 
-    // ----- Temporary code
-    apr_file_remove(tlvfname, memp);
-    apr_file_remove(txtfname, memp);
-    // --- End Temporary code
+    apr_dir_open(&json_dir, JSON_DIR, memp);
 
-    txt_open_write_file(&txtf, txtfname, memp);
-    tlv_open_read_file(&jsonf, jsonfname, memp);
-    tlv_open_write_bfile(&tlvf, tlvfname, memp);
-
-    cJSON* json_line;
-    cJSON* kvp;
-    int key_map;
-
-    while (apr_file_gets(line, sizeof(line), jsonf) == APR_SUCCESS)
+    // Scanning directory of JSON files
+    while (apr_dir_read(&finfo, APR_FINFO_DIRENT, json_dir) == APR_SUCCESS)
     {
-        printf("%s\n", line);
+        if (apr_strnatcmp(finfo.name, CURRENT_DIR) == EQUAL_STRINGS ||
+            apr_strnatcmp(finfo.name, PARENT_DIR) == EQUAL_STRINGS) continue;
 
-        json_line = cJSON_Parse(line);
-        key_map = 1;
+        // Reading JSON file
+        jsonf = finfo.filehand;
+        jsonfname = apr_pstrcat(memp, JSON_DIR, finfo.name, NULL);
+        tlv_open_read_file(&jsonf, jsonfname, memp);
+        printf("Parsing file: %s\n", jsonfname);
 
-        // Dictionary for string-integer pairs
-        apr_hash_t* dict = apr_hash_make(memp);
+        // Opening TXT file
+        txtfname = apr_pstrcat(memp, TXT_DIR, finfo.name, FTXT_SUFFIX, NULL);
+        apr_file_remove(txtfname, memp);
+        txt_open_write_file(&txtf, txtfname, memp);
 
-        // KVP box list for binary TLV
-        tlv_box_t* box = apr_palloc(memp, sizeof(tlv_box_t));
-        box->entries = apr_array_make(memp, INITIAL_ARRAY_SIZE, sizeof(tlv_t));
-        box->buff_len = 0;
-        box->offset = 0;
+        // Opening TLV file
+        tlvfname = apr_pstrcat(memp, TLV_DIR, finfo.name, FTLV_SUFFIX, NULL);
+        apr_file_remove(tlvfname, memp);
+        tlv_open_write_bfile(&tlvf, tlvfname, memp);
 
-        cJSON_ArrayForEach(kvp, json_line)
-        {
-            uint32_t* kmap = apr_palloc(memp, sizeof(uint32_t));
-            *kmap = key_map++;
-            apr_hash_set(dict, kvp->string, APR_HASH_KEY_STRING, kmap);
+        // Parsing JSON file and saving into TXT and TLV files
+        json_parser_file(memp, &jsonf, &txtf, &tlvf);
 
-            // Adding KVP-key to box
-            tlv_box_add_integer(memp, &box, *kmap);
-
-            // Adding KVP-value to box
-            if (cJSON_IsString(kvp))
-            {
-                tlv_box_add_string(memp, &box, kvp->valuestring);
-            }
-            else if (cJSON_IsNumber(kvp))
-            {
-                tlv_box_add_integer(memp, &box, kvp->valuedouble);
-            }
-            else if (cJSON_IsBool(kvp))
-            {
-                tlv_box_add_boolean(memp, &box, cJSON_IsFalse(kvp) ? BOOL_FALSE : BOOL_TRUE);
-            }
-            else
-            {
-                printf("JSON type not supported");
-                exit(-1);
-            }
-        }
-
-        tlv_box_parse_kvp(memp, &box);
-        tlv_write_bin_file(box, tlvf);
-        txt_write_txt_file(memp, dict, txtf);
-
-        cJSON_Delete(json_line);
+        // Closing files
+        apr_file_close(jsonf);
+        apr_file_close(txtf);
+        apr_file_close(tlvf);
     }
 
     apr_pool_destroy(memp);
-    apr_file_close(jsonf);
-    apr_file_close(txtf);
-    apr_file_close(tlvf);
     apr_terminate();
 
     return 0;

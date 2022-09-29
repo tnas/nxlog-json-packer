@@ -58,8 +58,8 @@ dkms.conf
 *.layout
 bin/
 obj/
-txt-output/*.txt
-tlv-output/*.tlv
+txt-output/*
+tlv-output/*
 
 # CMake
 CMakeFiles/
