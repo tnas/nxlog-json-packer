@@ -15,8 +15,11 @@
 #define TLV_STRING_TAG_LEN_SIZE 5
 
 #define TAG_BOOLEAN 0x01
-#define TAG_STRING 0x0C
 #define TAG_INTEGER 0x02
+#define TAG_STRING 0x0C
+
+#define TLV_TRUE 0xFF
+#define TLV_FALSE 0x00
 
 typedef enum {
     BOOL_FALSE,
@@ -32,16 +35,18 @@ typedef struct {
 typedef struct {
     apr_array_header_t* entries;
     unsigned char* buffer;
+    unsigned int offset;
     apr_size_t buff_len;
 } tlv_box_t;
 
 void tlv_open_read_file(apr_file_t** jsonf, const char* jsonfname, apr_pool_t* memp);
 void tlv_open_write_bfile(apr_file_t** tlvf, const char* tlvfname, apr_pool_t* memp);
-void tlv_box_add_object(apr_pool_t* memp, tlv_box_t** box, unsigned char tag, uint32_t len, void* value);
+void tlv_box_add_object(apr_pool_t* memp, tlv_box_t** box, uint32_t tlv_len, unsigned char tag, uint32_t len, void* value);
 void tlv_box_add_string(apr_pool_t* memp, tlv_box_t** box, void* value);
 void tlv_box_add_integer(apr_pool_t* memp, tlv_box_t** box, uint32_t value);
 void tlv_box_add_boolean(apr_pool_t* memp, tlv_box_t** box, bool_t value);
 void tlv_box_parse_kvp(apr_pool_t* memp, tlv_box_t** box);
+void tlv_box_serialize(tlv_box_t** box, tlv_t** tlv);
 void tlv_write_bin_file(tlv_box_t* box, apr_file_t* tlvf);
 
 #endif // TLV_H

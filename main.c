@@ -26,6 +26,11 @@ int main()
     apr_initialize();
     apr_pool_create(&memp, NULL);
 
+    // ----- Temporary code
+    apr_file_remove(tlvfname, memp);
+    apr_file_remove(txtfname, memp);
+    // --- End Temporary code
+
     txt_open_write_file(&txtf, txtfname, memp);
     tlv_open_read_file(&jsonf, jsonfname, memp);
     tlv_open_write_bfile(&tlvf, tlvfname, memp);
@@ -48,6 +53,7 @@ int main()
         tlv_box_t* box = apr_palloc(memp, sizeof(tlv_box_t));
         box->entries = apr_array_make(memp, INITIAL_ARRAY_SIZE, sizeof(tlv_t));
         box->buff_len = 0;
+        box->offset = 0;
 
         cJSON_ArrayForEach(kvp, json_line)
         {
