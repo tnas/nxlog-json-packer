@@ -77,8 +77,9 @@ The first one is by do not passing any command argument as follow
 ```
 
 In this mode, it will parse all files in the `./json-input` folder. The folders `txt-output`
-and `tlv-output` will be used to store the program's outcomes. The created files have their names appended to the `_txt` and `_tlv`
-suffixes respectively.
+and `tlv-output` will be used to store the program's outcomes.
+The suffixes `_txt` and `_tlv` are appended to the names of the created files, respectively.
+
 
 In the second mode, the program expects a specific JSON file to be passed as parameter.
 The directory from which the program was run is used to store the program's outcomes.
