@@ -20,6 +20,8 @@ int main()
     apr_pool_create(&memp, NULL);
 
     apr_dir_open(&json_dir, JSON_DIR, memp);
+    apr_dir_make(TXT_DIR, APR_FPROT_OS_DEFAULT, memp);
+    apr_dir_make(TLV_DIR, APR_FPROT_OS_DEFAULT, memp);
 
     // Scanning directory of JSON files
     while (apr_dir_read(&finfo, APR_FINFO_DIRENT, json_dir) == APR_SUCCESS)
