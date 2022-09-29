@@ -1,5 +1,14 @@
 #include "../include/txt.h"
 
+void txt_open_read_file(apr_file_t** txtf, const char* txtfname, apr_pool_t* memp)
+{
+    if (apr_file_open(txtf, txtfname, APR_FOPEN_READ, APR_FPROT_OS_DEFAULT, memp) != APR_SUCCESS)
+    {
+        printf("Error: Could not open file %s\n", txtfname);
+        exit(-1);
+    }
+}
+
 void txt_open_write_file(apr_file_t** txtf, const char* txtfname, apr_pool_t* memp)
 {
     if (apr_file_open(txtf, txtfname, APR_FOPEN_CREATE |
@@ -10,7 +19,7 @@ void txt_open_write_file(apr_file_t** txtf, const char* txtfname, apr_pool_t* me
     }
 }
 
-void txt_write_txt_file(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
+void txt_write_file(apr_pool_t* memp, apr_hash_t* dict, apr_file_t* txtf)
 {
     void* val;
     const void* key;

@@ -1,14 +1,5 @@
 #include "../include/tlv.h"
 
-void tlv_open_read_file(apr_file_t** jsonf, const char* jsonfname, apr_pool_t* memp)
-{
-    if (apr_file_open(jsonf, jsonfname, APR_FOPEN_READ, APR_FPROT_OS_DEFAULT, memp) != APR_SUCCESS)
-    {
-        printf("Error: Could not open file %s\n", jsonfname);
-        exit(-1);
-    }
-}
-
 void tlv_open_write_bfile(apr_file_t** tlvf, const char* tlvfname, apr_pool_t* memp)
 {
     if (apr_file_open(tlvf, tlvfname, APR_FOPEN_CREATE | APR_FOPEN_BINARY |

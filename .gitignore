@@ -58,12 +58,20 @@ dkms.conf
 *.layout
 bin/
 obj/
-txt-output/*
-tlv-output/*
+txt-output/
+tlv-output/
 
 # CMake
 CMakeFiles/
+Testing/
+sample_parsing
 CMakeCache.txt
 cmake_install.cmake
 Makefile
 json-packer
+*.cmake
+*.tcl
+
+# Program
+output.tlv
+output.txt

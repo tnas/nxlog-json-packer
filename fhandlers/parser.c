@@ -1,5 +1,49 @@
 #include "../include/parser.h"
 
+void json_parser(apr_pool_t* memp, const char* fname, fpath_t tpath)
+{
+    apr_file_t* jsonf;
+    apr_file_t* txtf;
+    apr_file_t* tlvf;
+
+    const char* jsonfname;
+    const char* txtfname;
+    const char* tlvfname;
+
+    if (tpath == SIMPLE_FNAME)
+    {
+        jsonfname = apr_pstrcat(memp, JSON_DIR, fname, NULL);
+        txtfname = apr_pstrcat(memp, TXT_DIR, fname, FTXT_SUFFIX, NULL);
+        tlvfname = apr_pstrcat(memp, TLV_DIR, fname, FTLV_SUFFIX, NULL);
+    }
+    else // FULL_FNAME
+    {
+        jsonfname = fname;
+        txtfname = DEFAULT_TXT_FNAME;
+        tlvfname = DEFAULT_TLV_FNAME;
+    }
+
+    // Reading JSON file
+    txt_open_read_file(&jsonf, jsonfname, memp);
+    printf("Parsing file: %s\n", jsonfname);
+
+    // Opening TXT file
+    apr_file_remove(txtfname, memp);
+    txt_open_write_file(&txtf, txtfname, memp);
+
+    // Opening TLV file
+    apr_file_remove(tlvfname, memp);
+    tlv_open_write_bfile(&tlvf, tlvfname, memp);
+
+    // Parsing JSON file and saving into TXT and TLV files
+    json_parser_file(memp, &jsonf, &txtf, &tlvf);
+
+    // Closing files
+    apr_file_close(jsonf);
+    apr_file_close(txtf);
+    apr_file_close(tlvf);
+}
+
 void json_parser_file(apr_pool_t* memp, apr_file_t** jsonf, apr_file_t** txtf, apr_file_t** tlvf)
 {
     char line[BUFFER_FILE_SIZE];
@@ -7,8 +51,6 @@ void json_parser_file(apr_pool_t* memp, apr_file_t** jsonf, apr_file_t** txtf, a
 
     while (apr_file_gets(line, sizeof(line), *jsonf) == APR_SUCCESS)
     {
-        printf("%s\n", line);
-
         json_line = cJSON_Parse(line);
 
         // Dictionary for string-integer pairs
@@ -24,7 +66,7 @@ void json_parser_file(apr_pool_t* memp, apr_file_t** jsonf, apr_file_t** txtf, a
 
         tlv_box_parse_kvp(memp, &box);
         tlv_write_bin_file(box, *tlvf);
-        txt_write_txt_file(memp, dict, *txtf);
+        txt_write_file(memp, dict, *txtf);
 
         cJSON_Delete(json_line);
     }

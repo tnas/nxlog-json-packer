@@ -39,7 +39,7 @@ typedef struct {
     apr_size_t buff_len;
 } tlv_box_t;
 
-void tlv_open_read_file(apr_file_t** jsonf, const char* jsonfname, apr_pool_t* memp);
+//void tlv_open_read_file(apr_file_t** jsonf, const char* jsonfname, apr_pool_t* memp);
 void tlv_open_write_bfile(apr_file_t** tlvf, const char* tlvfname, apr_pool_t* memp);
 void tlv_box_add_object(apr_pool_t* memp, tlv_box_t** box, uint32_t tlv_len, unsigned char tag, uint32_t len, void* value);
 void tlv_box_add_string(apr_pool_t* memp, tlv_box_t** box, void* value);

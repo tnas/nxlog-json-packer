@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(json-packer VERSION 1.0)
+cmake_policy(SET CMP0110 NEW)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 ###########################
 # Compiler configurations
@@ -13,12 +15,14 @@ set(C_COMPILER_FLAGS "gcc ${COMPILER_FLAGS}")
 # Project configurations
 ###########################
 
-add_executable(json-packer main.c
+add_library(json_parser
     ./cjson/cJSON.c
     ./fhandlers/tlv.c
     ./fhandlers/txt.c
-    ./fhandlers/parser.c
-)
+    ./fhandlers/parser.c)
+
+add_executable(json-packer main.c
+    ./util/util.c)
 
 # - Find Apache Portable Runtime
 # Find the APR includes and libraries
@@ -122,6 +126,7 @@ include_directories(${APRUTIL_INCLUDE_DIR})
 
 target_link_libraries(json-packer ${APR_LIBRARY})
 target_link_libraries(json-packer ${APRUTIL_LIBRARY})
+target_link_libraries(json-packer json_parser)
 
 ###########################
 # Directories
@@ -130,3 +135,15 @@ target_link_libraries(json-packer ${APRUTIL_LIBRARY})
 add_subdirectory(cjson)
 add_subdirectory(include)
 add_subdirectory(fhandlers)
+add_subdirectory(util)
+add_subdirectory(tests)
+
+###########################
+# Tests
+###########################
+
+include(CTest)
+add_executable(sample_parsing tests/sample_parsing.c)
+target_link_libraries(sample_parsing ${APR_LIBRARY})
+target_link_libraries(sample_parsing json_parser)
+add_test(NAME "Parsing Sample Instance" COMMAND sample_parsing)
