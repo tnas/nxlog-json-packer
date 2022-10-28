@@ -1,4 +1,4 @@
-# NXLog Practical Test
+# C Practical Test for NXLog
 
 A JSON reader for writing data to a compressed stream on a disk.
 
