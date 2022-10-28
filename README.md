@@ -1,4 +1,5 @@
-# JSON Packer
+# NXLog Practical Test
+
 A JSON reader for writing data to a compressed stream on a disk.
 
 The original description is detailed on the project's [Wiki](https://github.com/tnas/json-packer/wiki).
